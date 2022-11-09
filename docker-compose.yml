@@ -1,7 +1,6 @@
 version: '3.7'
 
 services:
-
   # The 'setup' service runs a one-off script which initializes the
   # 'logstash_internal' and 'kibana_system' users inside Elasticsearch with the
   # values of the passwords defined in the '.env' file.
@@ -48,6 +47,11 @@ services:
       discovery.type: single-node
     networks:
       - elk
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "5"
 
   logstash:
     build:
@@ -69,6 +73,11 @@ services:
       - elk
     depends_on:
       - elasticsearch
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "5"
 
   kibana:
     build:
@@ -85,6 +94,11 @@ services:
       - elk
     depends_on:
       - elasticsearch
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "5"
 
 networks:
   elk:
